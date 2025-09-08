@@ -181,7 +181,7 @@ jupyter notebook
 
 ## 👥 Team
 
-- **Krati Bansal** - Project Lead - kratibansal2006@gmail.com
+- **Krati**
 - **Nitin**
 - **Karan**
 - **Sumantha**
