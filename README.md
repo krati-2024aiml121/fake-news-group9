@@ -290,7 +290,7 @@ See [Model_Comparison_Analysis.md](notebooks/Model_Comparison_Analysis.md) for d
 
 ## 👥 Team
 
-- **Krati Garg**
+- **Krati**
 - **Nitin**
 - **Karan**
 - **Sumantha**
