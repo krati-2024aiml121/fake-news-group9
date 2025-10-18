@@ -100,7 +100,6 @@ After clicking "Analyze Article," you'll see:
 
 - **Analyze Article:** Click this to check your news article
 - **Clear:** Clears all text boxes to start fresh
-- **Train Model:** Re-trains the AI (only use if you have new data)
 
 #### **Tips for Best Results**
 

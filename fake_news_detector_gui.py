@@ -78,8 +78,6 @@ class FakeNewsDetectorGUI:
         
         ttk.Button(button_frame, text="Clear", command=self.clear_inputs).pack(side=tk.LEFT, padx=5)
         
-        ttk.Button(button_frame, text="Train Model", command=self.train_model).pack(side=tk.LEFT, padx=5)
-        
         # Result frame
         result_frame = ttk.LabelFrame(main_frame, text="Analysis Result", padding="10")
         result_frame.grid(row=4, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=10)
@@ -105,7 +103,7 @@ class FakeNewsDetectorGUI:
                     self.status_label.config(text="✅ Model Ready - Accuracy: 99.78%")
                     self.predict_button.config(state=tk.NORMAL)
                 else:
-                    self.status_label.config(text="⚠️ No trained model found. Please train first.")
+                    self.status_label.config(text="⚠️ No trained model found. Please run the launcher script.")
                     self.predict_button.config(state=tk.DISABLED)
             except Exception as e:
                 self.status_label.config(text=f"❌ Error loading model: {str(e)}")
@@ -212,54 +210,6 @@ class FakeNewsDetectorGUI:
         self.result_text.delete("1.0", tk.END)
         self.result_text.config(state=tk.DISABLED)
         self.status_label.config(text="✅ Model Ready" if self.model_loaded else "⚠️ No model loaded")
-    
-    def train_model(self):
-        """Train the model"""
-        response = messagebox.askyesno(
-            "Train Model",
-            "This will train a new model from scratch.\n"
-            "It may take a few minutes.\n\n"
-            "Continue?"
-        )
-        
-        if not response:
-            return
-        
-        self.predict_button.config(state=tk.DISABLED)
-        self.status_label.config(text="🔄 Training model... This may take a few minutes.")
-        
-        def train():
-            try:
-                # Load and preprocess data
-                df = self.detector.load_and_preprocess_data()
-                
-                # Train model
-                accuracy, roc_auc, training_time = self.detector.train_model(df)
-                
-                # Save model
-                self.detector.save_model(accuracy, roc_auc, training_time)
-                
-                self.model_loaded = True
-                self.status_label.config(text=f"✅ Training Complete! Accuracy: {accuracy*100:.2f}%")
-                self.predict_button.config(state=tk.NORMAL)
-                
-                messagebox.showinfo(
-                    "Training Complete",
-                    f"Model trained successfully!\n\n"
-                    f"Accuracy: {accuracy*100:.2f}%\n"
-                    f"ROC-AUC: {roc_auc:.4f}\n"
-                    f"Training Time: {training_time:.2f}s"
-                )
-                
-            except Exception as e:
-                self.status_label.config(text="❌ Training failed")
-                messagebox.showerror("Training Error", f"Error during training:\n{str(e)}")
-            finally:
-                if self.model_loaded:
-                    self.predict_button.config(state=tk.NORMAL)
-        
-        thread = threading.Thread(target=train, daemon=True)
-        thread.start()
 
 
 def main():
